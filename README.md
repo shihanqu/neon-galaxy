@@ -28,7 +28,7 @@ The most challenging part? Getting the reaction-diffusion simulation to actually
 
 ## 🎮 Experience It
 
-**[▶️ Live Demo](https://YOUR-GITHUB-USERNAME.github.io/neon-galaxy/)** *(Update this link after deploying)*
+**[▶️ Live Demo](https://shihanqu.github.io/neon-galaxy/)**
 
 ### Three Modes of Being
 
@@ -111,7 +111,7 @@ for (let i = 0; i < stepsPerFrame; i++) {
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR-USERNAME/neon-galaxy.git
+git clone https://github.com/shihanqu/neon-galaxy.git
 cd neon-galaxy
 
 # Start a local server (required for ES modules)
