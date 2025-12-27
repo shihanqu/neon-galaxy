@@ -1,5 +1,15 @@
 # 🌌 Neon Galaxy: Sentient Edition
 
+<div align="center">
+
+### **[🚀 Launch Live Demo](https://shihanqu.github.io/neon-galaxy/)**
+
+*Click, explore, and watch digital life emerge*
+
+---
+
+</div>
+
 > *An interactive exploration of emergence, consciousness, and digital life*
 
 **Created with [Antigravity AI](https://github.com/google-deepmind/antigravity) in a 3-hour coding session, starting with Gemini 3 Pro, then handed to Claude Opus 4.5 to finish**
@@ -26,11 +36,7 @@ The most challenging part? Getting the reaction-diffusion simulation to actually
 
 ---
 
-## 🎮 Experience It
-
-**[▶️ Live Demo](https://shihanqu.github.io/neon-galaxy/)**
-
-### Three Modes of Being
+## 🎮 Three Modes of Being
 
 | Mode | Philosophy | Experience |
 |------|------------|------------|
