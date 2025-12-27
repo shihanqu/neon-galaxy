@@ -11,9 +11,28 @@ if (!gl) {
     console.error('WebGL not supported');
 }
 
-// Simulation runs at fixed low resolution for stability
-const SIM_WIDTH = 512;
-const SIM_HEIGHT = 512;
+// Simulation resolution - dynamic based on aspect ratio
+// Minimum dimension is 512, other dimension scales proportionally
+const MIN_RESOLUTION = 512;
+let SIM_WIDTH = 512;
+let SIM_HEIGHT = 512;
+
+// Calculate simulation resolution based on canvas aspect ratio
+function calculateSimResolution() {
+    const aspectRatio = window.innerWidth / window.innerHeight;
+
+    if (aspectRatio >= 1) {
+        // Landscape or square: height is minimum, width scales
+        SIM_HEIGHT = MIN_RESOLUTION;
+        SIM_WIDTH = Math.round(MIN_RESOLUTION * aspectRatio);
+    } else {
+        // Portrait: width is minimum, height scales
+        SIM_WIDTH = MIN_RESOLUTION;
+        SIM_HEIGHT = Math.round(MIN_RESOLUTION / aspectRatio);
+    }
+
+    console.log(`Simulation resolution: ${SIM_WIDTH}x${SIM_HEIGHT} (aspect ratio: ${aspectRatio.toFixed(2)})`);
+}
 
 // Vertex shader - simple fullscreen quad
 const vsSource = `
@@ -73,8 +92,11 @@ const simFsSource = `
         // Mouse interaction - seed B chemical
         if (u_mouseDown > 0.5) {
             vec2 mouseUV = u_mouse / u_resolution;
-            float dist = distance(v_texCoord, mouseUV);
-            if (dist < 0.05) {
+            // Account for aspect ratio to make cursor circular
+            vec2 aspect = vec2(u_resolution.x / u_resolution.y, 1.0);
+            float dist = distance(v_texCoord * aspect, mouseUV * aspect);
+            float radius = 0.05 * max(aspect.x, aspect.y);
+            if (dist < radius) {
                 newB = 1.0;
                 newA = 0.0;
             }
@@ -224,11 +246,18 @@ function createSimTexture() {
 }
 
 function initSimulation() {
+    // Calculate resolution based on aspect ratio
+    calculateSimResolution();
+
     // Resize canvas to screen
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // Create ping-pong buffers
+    // Clean up old textures/framebuffers if they exist
+    textures.forEach(tex => gl.deleteTexture(tex));
+    framebuffers.forEach(fb => gl.deleteFramebuffer(fb));
+
+    // Create ping-pong buffers at new resolution
     textures = [];
     framebuffers = [];
     for (let i = 0; i < 2; i++) {
@@ -414,10 +443,34 @@ export function checkActivity() {
     return total / (100 * 255);
 }
 
-// Handle resize
+// Handle resize with debouncing
+// Wait for resize to settle before reinitializing simulation
+let resizeTimeout = null;
+let lastWidth = window.innerWidth;
+let lastHeight = window.innerHeight;
+
 window.addEventListener('resize', () => {
-    if (textures.length > 0) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+    // Always update canvas size immediately for smooth visuals
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Check if aspect ratio changed significantly
+    const currentAspect = window.innerWidth / window.innerHeight;
+    const lastAspect = lastWidth / lastHeight;
+    const aspectChanged = Math.abs(currentAspect - lastAspect) > 0.01;
+
+    if (aspectChanged && textures.length > 0) {
+        // Clear any pending resize timeout
+        if (resizeTimeout) {
+            clearTimeout(resizeTimeout);
+        }
+
+        // Wait for resize to settle (300ms debounce)
+        resizeTimeout = setTimeout(() => {
+            console.log('Resize settled, reinitializing simulation...');
+            lastWidth = window.innerWidth;
+            lastHeight = window.innerHeight;
+            initSimulation();
+        }, 300);
     }
 });
