@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Galaxy - Interactive Particles</title>
+    <meta name="description" content="An interactive particle simulation showcasing modern web aesthetics.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <canvas id="rd-canvas" style="display: none;"></canvas>
+
+    <div class="ui-container">
+        <header>
+            <h1>Neon Galaxy</h1>
+            <p>Interactive Experience</p>
+        </header>
+
+        <div class="mode-switcher">
+            <button id="mode-particles" class="active">Particles</button>
+            <button id="mode-life">Digital Life</button>
+            <button id="mode-architect">The Architect</button>
+        </div>
+
+        <div id="controls-particles" class="controls">
+            <div class="control-group">
+                <label for="particle-count">Particle Count</label>
+                <input type="range" id="particle-count" min="100" max="1000" value="500">
+                <span class="value-display" id="count-display">500</span>
+            </div>
+
+            <div class="control-group">
+                <label for="base-speed">Flow Speed</label>
+                <input type="range" id="base-speed" min="1" max="10" value="3">
+                <span class="value-display" id="speed-display">3</span>
+            </div>
+
+            <div class="control-group">
+                <label for="interaction-radius">Interaction Radius</label>
+                <input type="range" id="interaction-radius" min="50" max="300" value="150">
+                <span class="value-display" id="radius-display">150</span>
+            </div>
+
+            <div class="control-group-toggle">
+                <label for="connect-lines">Constellations</label>
+                <input type="checkbox" id="connect-lines" checked>
+                <div class="toggle-switch"></div>
+            </div>
+        </div>
+
+        <div id="controls-life" class="controls" style="display: none;">
+            <div class="control-group">
+                <label for="rd-feed">Feed Rate</label>
+                <input type="range" id="rd-feed" min="0.010" max="0.080" step="0.001" value="0.037">
+                <span class="value-display" id="feed-display">0.037</span>
+            </div>
+            <div class="control-group">
+                <label for="rd-kill">Kill Rate</label>
+                <input type="range" id="rd-kill" min="0.045" max="0.070" step="0.001" value="0.065">
+                <span class="value-display" id="kill-display">0.065</span>
+            </div>
+            <div class="control-group-toggle">
+                <label for="rd-autonomy">Autonomy (Drift)</label>
+                <input type="checkbox" id="rd-autonomy">
+                <div class="toggle-switch"></div>
+            </div>
+            <div class="control-group-toggle">
+                <label for="rd-audio">Audio Pulse</label>
+                <input type="checkbox" id="rd-audio">
+                <div class="toggle-switch"></div>
+            </div>
+
+            <div class="control-group-toggle">
+                <label for="rd-voice">Machine Voice</label>
+                <input type="checkbox" id="rd-voice">
+                <div class="toggle-switch"></div>
+            </div>
+
+            <div class="control-group">
+                <button id="btn-reset-rd" class="action-button">Reset Simulation</button>
+                <button id="btn-save-species" class="action-button">Save Species</button>
+                <div id="species-list" class="species-list"></div>
+            </div>
+
+            <div class="info">
+
+                <p>Click and drag to seed life. Tweak rates to evolve.</p>
+            </div>
+        </div>
+
+        <div class="info">
+            <p>Move mouse to interact. Click to disperse.</p>
+        </div>
+    </div>
+
+    <div id="ai-log" class="ai-log">Initializing Core...</div>
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
