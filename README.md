@@ -2,7 +2,7 @@
 
 > *An interactive exploration of emergence, consciousness, and digital life*
 
-**Created with [Antigravity AI](https://github.com/google-deepmind/antigravity) in a 3-hour coding session**
+**Created with [Antigravity AI](https://github.com/google-deepmind/antigravity) in a 3-hour coding session, starting with Gemini 3 Pro, then handed to Claude Opus 4.5 to finish**
 
 ---
 
